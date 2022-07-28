@@ -1,5 +1,5 @@
 import { TPoint } from "../Point";
-import { TVector } from "lab_1/geometry/Vector";
+import { TVector } from "../Vector";
 
 export type TPlane = {
     normal: TVector;
