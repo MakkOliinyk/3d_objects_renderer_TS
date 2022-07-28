@@ -7,9 +7,9 @@ export type TVector = {
 
     add(vector: TVector): TVector;
     subtract(vector: TVector): TVector;
-    dot(vector: TVector): number;
-    divide(vector: TVector): TVector;
     multiply(n: number): TVector;
+    divide(vector: TVector): TVector;
+    dot(vector: TVector): number;
     normalize(): TVector;
 }
 
@@ -40,16 +40,16 @@ export class Vector implements TVector {
         return new Vector(this.x - vector.x, this.y - vector.y, this.z - vector.z);
     }
 
-    dot(vector: TVector): number {
-        return this.x * vector.x + this.y * vector.y + this.z * vector.z;
+    multiply(n: number): TVector {
+        return new Vector(this.x * n, this.y * n, this.z * n);
     }
 
     divide(vector: TVector): TVector {
         return new Vector(this.x / vector.x, this.y / vector.y, this.z / vector.z);
     }
 
-    multiply(n: number): TVector {
-        return new Vector(this.x * n, this.y * n, this.z * n);
+    dot(vector: TVector): number {
+        return this.x * vector.x + this.y * vector.y + this.z * vector.z;
     }
 
     normalize(): TVector {
