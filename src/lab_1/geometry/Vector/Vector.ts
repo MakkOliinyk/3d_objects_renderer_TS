@@ -32,23 +32,23 @@ export class Vector implements TVector {
         );
     }
 
-    add(vector: Vector): Vector {
+    add(vector: TVector): TVector {
         return new Vector(this.x + vector.x, this.y + vector.y, this.z + vector.z);
     }
 
-    subtract(vector: Vector): Vector {
+    subtract(vector: TVector): TVector {
         return new Vector(this.x - vector.x, this.y - vector.y, this.z - vector.z);
     }
 
-    dot(vector: Vector): number {
+    dot(vector: TVector): number {
         return this.x * vector.x + this.y * vector.y + this.z * vector.z;
     }
 
-    divide(vector: Vector): Vector {
+    divide(vector: TVector): TVector {
         return new Vector(this.x / vector.x, this.y / vector.y, this.z / vector.z);
     }
 
-    multiply(n: number): Vector {
+    multiply(n: number): TVector {
         return new Vector(this.x * n, this.y * n, this.z * n);
     }
 
