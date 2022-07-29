@@ -21,7 +21,7 @@ export class View {
         this.figures = [];
     }
 
-    public inject(obj: any): void {
-        this.figures.push(obj);
+    inject(figure: any) {
+        this.figures.push(figure);
     }
 }
