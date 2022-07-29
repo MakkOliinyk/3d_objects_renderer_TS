@@ -7,7 +7,7 @@ export type TTrinagle = {
     b: TPoint;
     c: TPoint;
 
-    intersect(ray: TRay): number;
+    intersection(ray: TRay): number;
     getPointNormal(_point: TPoint): TVector;
 }
 
@@ -23,7 +23,7 @@ export class Triangle {
     }
 
     // formula: https://bit.ly/3oAFbwW
-    intersect(ray: TRay): TPoint {
+    intersection(ray: TRay): TPoint {
         const e1 = this.b.subtract(this.a);
         const e2 = this.c.subtract(this.a);
         const p = ray.direction.cross(e2);
