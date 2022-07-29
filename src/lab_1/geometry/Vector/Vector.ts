@@ -10,6 +10,7 @@ export type TVector = {
     multiply(n: number): TVector;
     divide(vector: TVector): TVector;
     dot(vector: TVector): number;
+    cross(vector: TVector): TVector;
     normalize(): TVector;
 }
 
@@ -50,6 +51,14 @@ export class Vector implements TVector {
 
     dot(vector: TVector): number {
         return this.x * vector.x + this.y * vector.y + this.z * vector.z;
+    }
+
+    cross(vector: TVector): TVector {
+        return new Vector(
+            this.y * vector.z - this.z * vector.y,
+            this.z * vector.x - this.x * vector.z,
+            this.x * vector.y - this.y * vector.x
+        );
     }
 
     normalize(): TVector {
