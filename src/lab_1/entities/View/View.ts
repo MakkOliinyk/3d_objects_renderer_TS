@@ -6,18 +6,22 @@ export class View {
     camera: Camera;
     matrix: ViewMatrix;
     light: Light;
+    figures: any[];
+    image: string;
 
     constructor(camera: Camera, light: Light, matrix: ViewMatrix) {
         this.camera = camera;
         this.matrix = matrix;
         this.light = light;
+        this.figures = [];
+        this.image = '';
     };
 
-    private getChar = (x): string => {
-        if (x < 0) return ' ';
-        else if (x < 0.2) return '.';
-        else if (x < 0.5) return '*';
-        else if (x < 0.8) return '0';
-        else return '#';
+    clear() {
+        this.figures = [];
+    }
+
+    public inject(obj: any): void {
+        this.figures.push(obj);
     }
 }
