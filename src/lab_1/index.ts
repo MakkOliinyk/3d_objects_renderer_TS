@@ -2,6 +2,7 @@ import { Point } from "./geometry/Point";
 import { Vector } from "./geometry/Vector";
 import { Plane } from "./geometry/Plane";
 import { Sphere } from "./geometry/Sphere";
+import { Triangle } from "./geometry/Triangle";
 
 import { Light } from "./entities/Light";
 import { View } from "./entities/View";
@@ -15,6 +16,7 @@ const view: View = new View(camera, light, matrix);
 
 const plane = new Plane(new Vector(1, 1, -0.3).normalize(), new Point(0, 0, 0));
 const sphere = new Sphere(new Point(0, 0, 0), 16);
+const triangle = new Triangle(new Point(0, 10, 10), new Point(-10, -5, 10), new Point(20, -5, 10))
 
 view.inject(plane);
 view.process();
@@ -24,6 +26,12 @@ view.clear();
 
 view.inject(plane);
 view.inject(sphere);
+view.process();
+console.log(view.image);
+
+view.clear();
+
+view.inject(triangle);
 view.process();
 console.log(view.image);
 
