@@ -9,6 +9,7 @@ export type TPlane = {
     center: TPoint;
 
     intersection(ray: TRay): number;
+    getPointNormal(_point: TPoint): TVector;
 }
 
 export class Plane implements TPlane {
@@ -32,6 +33,10 @@ export class Plane implements TPlane {
         }
 
         return null;
+    }
+
+    getPointNormal(_point: TPoint): TVector {
+        return this.normal;
     }
 }
 
