@@ -35,8 +35,8 @@ console.log(view.image);
 
 view.clear();
 
-const sphere_behind: Sphere = new Sphere(new Point(-10,10,-5), 16);
-const sphere_infront: Sphere = new Sphere(new Point(0,0,5), 16);
+const sphere_behind: Sphere = new Sphere(new Point(-10, 10, -5), 16);
+const sphere_infront: Sphere = new Sphere(new Point(0, 0, 5), 16);
 
 view.inject(sphere_behind);
 view.inject(sphere_infront);
