@@ -7,6 +7,10 @@
   "author": "Mark Oliinyk <markoliinyk@gmail.com>",
   "license": "MIT",
   "private": false,
+  "scripts": {
+    "lab1": "ts-node ./src/lab_1/index.ts",
+    "test": "jest"
+  },
   "devDependencies": {
     "@types/jest": "^28.1.6",
     "jest": "^28.1.3",
