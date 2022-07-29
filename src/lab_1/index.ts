@@ -1,6 +1,7 @@
 import { Point } from "./geometry/Point";
-import { Plane } from "./geometry/Plane";
 import { Vector } from "./geometry/Vector";
+import { Plane } from "./geometry/Plane";
+import { Sphere } from "./geometry/Sphere";
 
 import { Light } from "./entities/Light";
 import { View } from "./entities/View";
@@ -13,9 +14,21 @@ const matrix = new ViewMatrix(20, 20, 30);
 const view: View = new View(camera, light, matrix);
 
 const plane = new Plane(new Vector(1, 1, 0.3).normalize(), new Point(0, 0, 0));
+const sphere = new Sphere(new Point(0, 0, 0), 16);
 
 view.inject(plane);
 view.process();
 console.log(view.image);
 
 view.clear();
+
+view.inject(plane);
+view.inject(sphere);
+view.process();
+console.log(view.image);
+
+view.clear();
+
+view.inject(sphere);
+view.process();
+console.log(view.image);
