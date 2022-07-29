@@ -2,7 +2,7 @@ import { TPoint } from "../Point";
 import { TVector } from "../Vector";
 import { TRay } from "../Ray";
 
-const EPS = 0.00001;
+import { EPS } from "../constants";
 
 export type TPlane = {
     normal: TVector;
