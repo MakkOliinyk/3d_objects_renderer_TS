@@ -40,7 +40,7 @@ export class View {
         else return '#';
     }
 
-    digest() {
+    process() {
         this.image = '';
         const origin: TPoint = this.camera.location;
 
@@ -51,22 +51,22 @@ export class View {
                 const direction = this.matrix.getPoint(x, y).subtract(origin);
                 const ray = new Ray(origin, direction);
 
-                let closestObject: any = null;
+                let closestFigure: any = null;
                 let closestDistance: number = Infinity;
 
-                for (let obj of this.figures) {
-                    const distance: number = obj.intersection(ray);
+                for (let figure of this.figures) {
+                    const distance: number = figure.intersection(ray);
 
                     if (distance !== null && distance < closestDistance) {
-                        closestObject = obj;
                         closestDistance = distance;
+                        closestFigure = figure;
                     }
                 }
 
-                if (closestObject === null)
+                if (closestFigure === null)
                     resultImage += '-'
                 else {
-                    const pointNormal = closestObject.getPointNormal(ray.at(closestDistance));
+                    const pointNormal = closestFigure.getPointNormal(ray.at(closestDistance));
                     resultImage += this.getCharacter(pointNormal);
                 }
 

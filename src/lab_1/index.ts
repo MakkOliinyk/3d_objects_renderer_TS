@@ -15,7 +15,7 @@ const view: View = new View(camera, light, matrix);
 const plane = new Plane(new Vector(1, 1, 0.3).normalize(), new Point(0, 0, 0));
 
 view.inject(plane);
-view.digest();
+view.process();
 console.log(view.image);
 
 view.clear();
