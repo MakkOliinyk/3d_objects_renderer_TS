@@ -4,6 +4,7 @@ import { Light } from "../Light";
 
 import { TPoint } from "../../geometry/Point";
 import { Ray } from "../../geometry/Ray";
+import { TVector } from "lab_1/geometry/Vector";
 
 export class View {
     camera: Camera;
@@ -29,6 +30,16 @@ export class View {
         this.figures.push(figure);
     }
 
+    getCharacter (normal: TVector) {
+        const dotResult: number = this.light.direction.dot(normal);
+
+        if (dotResult < 0) return ' ';
+        else if (dotResult < 0.2) return '.';
+        else if (dotResult < 0.5) return '*';
+        else if (dotResult < 0.8) return '0';
+        else return '#';
+    }
+
     digest() {
         this.image = '';
         const origin: TPoint = this.camera.location;
@@ -52,8 +63,12 @@ export class View {
                     }
                 }
 
-                if (closestObject === null) resultImage += '-'
-                else resultImage += '*';
+                if (closestObject === null)
+                    resultImage += '-'
+                else {
+                    const pointNormal = closestObject.getPointNormal(ray.at(closestDistance));
+                    resultImage += this.getCharacter(pointNormal);
+                }
 
                 resultImage += ' ';
             }
