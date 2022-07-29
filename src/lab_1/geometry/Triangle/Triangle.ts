@@ -2,6 +2,8 @@ import { TPoint } from "../Point";
 import { TRay } from "../Ray";
 import { TVector } from "../Vector";
 
+import { EPS } from "../constants";
+
 export type TTrinagle = {
     a: TPoint;
     b: TPoint;
@@ -23,19 +25,30 @@ export class Triangle {
     }
 
     // formula: https://bit.ly/3oAFbwW
-    intersection(ray: TRay): TPoint {
+    intersection(ray: TRay): number {
         const e1 = this.b.subtract(this.a);
         const e2 = this.c.subtract(this.a);
         const p = ray.direction.cross(e2);
         const a = e1.dot(p);
-        if (a < 0) return null;
-        const f = ray.origin.subtract(this.a);
-        const b = f.dot(p);
-        if (b < 0 || b > a) return null;
-        const d = e1.cross(f).dot(ray.direction);
-        if (d < 0 || d > a) return null;
-        const t = e2.dot(p) / a;
-        return ray.at(t);
+
+        if (a > -EPS && a < EPS) return null;
+
+        const f = 1 / a;
+        const s = ray.origin.subtract(this.a);
+        const u = f * s.dot(p);
+
+        if (u < 0 || u > 1) return null;
+
+        const q = s.cross(e1);
+        const v = f * ray.direction.dot(q);
+
+        if (v < 0 || u + v > 1) return null;
+
+        const t = f * e2.dot(q);
+
+        if (t > EPS) return t;
+
+        return null;
     }
 
     getPointNormal(_point: TPoint): TPoint {
