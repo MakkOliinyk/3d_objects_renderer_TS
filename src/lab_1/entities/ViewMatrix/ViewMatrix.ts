@@ -21,4 +21,14 @@ export class ViewMatrix {
     getValue(x: number, y: number): TPoint {
         return this.matrix[x][y];
     }
+
+    getPoint(x: number, y: number): TPoint {
+        const point = this.getValue(x, y);
+
+        return new Point(
+            -this.width / 2 + point.x,
+            this.height / 2 - point.y,
+            point.z
+        );
+    }
 }

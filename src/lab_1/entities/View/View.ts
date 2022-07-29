@@ -16,6 +16,7 @@ export class View {
         this.camera = camera;
         this.matrix = matrix;
         this.light = light;
+
         this.figures = [];
         this.image = '';
     };
@@ -36,7 +37,7 @@ export class View {
 
         for (let y = 0; y < this.matrix.height; y++) {
             for (let x = 0; x < this.matrix.width; x++) {
-                const direction = this.matrix.getValue(x, y).subtract(origin);
+                const direction = this.matrix.getPoint(x, y).subtract(origin);
                 const ray = new Ray(origin, direction);
 
                 let closestObject: any = null;
