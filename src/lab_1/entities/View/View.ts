@@ -63,8 +63,7 @@ export class View {
                     }
                 }
 
-                if (closestFigure === null)
-                    resultImage += '-'
+                if (closestFigure === null) resultImage += '-'
                 else {
                     const pointNormal = closestFigure.getPointNormal(ray.at(closestDistance));
                     resultImage += this.getCharacter(pointNormal);
