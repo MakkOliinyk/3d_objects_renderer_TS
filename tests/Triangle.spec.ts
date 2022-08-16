@@ -1,7 +1,7 @@
-import {Triangle, TTrinagle} from "../src/geometry/Triangle";
-import {Point} from "../src/geometry/Point";
-import {Vector} from "../src/geometry/Vector";
-import {Ray} from "../src/geometry/Ray";
+import { Triangle, TTrinagle } from "../src/geometry/Triangle";
+import { Point } from "../src/geometry/Point";
+import { Vector } from "../src/geometry/Vector";
+import { Ray } from "../src/geometry/Ray";
 
 describe('Triangle', () => {
     let triangle: TTrinagle = null;
