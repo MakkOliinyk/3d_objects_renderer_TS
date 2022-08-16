@@ -3,7 +3,7 @@ const fs = require('fs');
 const DEFAULT_BACKGROUND = [0, 128, 128];
 const DEFAULT_COLOR = [0, 255, 0];
 
-class FileWriter {
+export class FileWriter {
     path: string;
     width: number;
     height: number;
