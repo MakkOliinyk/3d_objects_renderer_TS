@@ -1,1 +1,1 @@
-export { Triangle, TTrinagle } from "./Triangle";
+export { Triangle, TTriangle } from "./Triangle";

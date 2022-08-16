@@ -1,10 +1,10 @@
-import { Triangle, TTrinagle } from "../src/geometry/Triangle";
+import { Triangle, TTriangle } from "../src/geometry/Triangle";
 import { Point } from "../src/geometry/Point";
 import { Vector } from "../src/geometry/Vector";
 import { Ray } from "../src/geometry/Ray";
 
 describe('Triangle', () => {
-    let triangle: TTrinagle = null;
+    let triangle: TTriangle = null;
 
     beforeEach(() => {
         triangle = new Triangle(new Point(-5, 0, 0), new Point(5, 0, 0), new Point(0, 10, 0));

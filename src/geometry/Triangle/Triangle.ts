@@ -2,7 +2,7 @@ import { TPoint } from "../Point";
 import { TRay } from "../Ray";
 import { TVector, Vector } from "../Vector";
 
-export type TTrinagle = {
+export type TTriangle = {
     a: TPoint;
     b: TPoint;
     c: TPoint;
@@ -41,7 +41,7 @@ export class Triangle {
         const edge2 = this.c.subtract(this.a);
 
         const pvec = direction.cross(edge2);
-        const determinant = edge1.dot(pvec)
+        const determinant = edge1.dot(pvec);
 
         if (determinant === 0)
             return null;
@@ -67,7 +67,7 @@ export class Triangle {
             : null;
     }
 
-    getPointNormal = (point: TPoint): TVector => {
+    getPointNormal(point: TPoint): TVector {
         if (!this.sa.length && !this.sb.length && !this.sc.length) {
             const edge1 = this.b.subtract(point);
             const edge2 = this.c.subtract(point);
