@@ -8,7 +8,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "start": "ts-node src/index.ts --input /files/shrek.obj --output /files/shrek.ppt",
+    "start": "ts-node src/index.ts --input /files/shrek.obj --output /files/shrek.ppm",
     "test": "jest"
   },
   "devDependencies": {
