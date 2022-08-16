@@ -17,24 +17,22 @@ export class FileReader {
     }
 
     read() {
-        const fileStream = fs.createReadStream(this.path);
-        const lineReader = readline.createInterface({
-            input: fileStream,
-            crlfDelay: Infinity
-        });
+        const lines = fs.readFileSync(this.path, 'utf-8')
+            .split('\r\n')
+            .filter(Boolean);
 
-        const vertex = [];
+        const vertexes = [];
         const vectors = [];
         const indexes = [];
 
-        lineReader.on('line', (line) => {
+        lines.forEach((line) => {
             const words = line.split(' ').filter((word) => word !== '');
 
             if (words.length === 0 || words[0] === '#') return;
 
             const parameter = words.shift();
 
-            if (parameter === 'v') vertex.push(this.handleWords(words));
+            if (parameter === 'v') vertexes.push(this.handleWords(words));
             else if (parameter === 'vn') vectors.push(this.handleWords(words));
             else if (parameter === 'f') {
                 indexes.push(
@@ -45,10 +43,8 @@ export class FileReader {
                     )
                 );
             }
-
-            return;
         });
 
-        return [vertex, vectors, indexes];
+        return [vertexes, vectors, indexes];
     }
 }
