@@ -67,7 +67,7 @@ export class Matrix implements TMatrix {
         return new Point(result[0], result[1], result[2]);
     }
 
-    public rotateX = (angle: number): void => {
+    rotateX(angle: number): void {
         const rad = getRotationRad(angle);
 
         this.multiply(
@@ -79,7 +79,7 @@ export class Matrix implements TMatrix {
         );
     }
 
-    public rotateY = (angle: number): void => {
+    rotateY(angle: number): void {
         const rad = getRotationRad(angle);
 
         this.multiply(
@@ -91,7 +91,7 @@ export class Matrix implements TMatrix {
         );
     }
 
-    public rotateZ = (angle: number): void => {
+    rotateZ(angle: number): void {
         const rad = getRotationRad(angle);
 
         this.multiply(
@@ -107,5 +107,25 @@ export class Matrix implements TMatrix {
         if (angleX) this.rotateX(angleX);
         if (angleY) this.rotateY(angleY);
         if (angleZ) this.rotateZ(angleZ);
+    }
+
+    scale(scaleValue: number): void {
+        this.multiply(
+            new Matrix([
+                [scaleValue, 0, 0, 0],
+                [0, scaleValue, 0, 0],
+                [0, 0, scaleValue, 0],
+            ])
+        );
+    }
+
+    move(x: number, y: number, z: number): void {
+        this.multiply(
+            new Matrix([
+                [0, 0, 0, x],
+                [0, 0, 0, y],
+                [0, 0, 0, z],
+            ])
+        );
     }
 }
