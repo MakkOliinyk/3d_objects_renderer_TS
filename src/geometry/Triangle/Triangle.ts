@@ -1,6 +1,6 @@
 import { TPoint } from "../Point";
 import { TRay } from "../Ray";
-import { TVector } from "../Vector";
+import { TVector, Vector } from "../Vector";
 
 export type TTrinagle = {
     a: TPoint;
@@ -12,7 +12,7 @@ export type TTrinagle = {
     sc: TVector;
 
     intersection(ray: TRay): number;
-    getPointNormal(_point: TPoint): TVector;
+    getPointNormal(point: TPoint): TVector;
 }
 
 export class Triangle {
@@ -24,14 +24,14 @@ export class Triangle {
     sb: TVector;
     sc: TVector;
 
-    constructor(a: TPoint, b: TPoint, c: TPoint, sa: TVector, sb: TVector, sc: TVector) {
+    constructor(a: TPoint, b: TPoint, c: TPoint, sa?: TVector, sb?: TVector, sc?: TVector) {
         this.a = a;
         this.b = b;
         this.c = c;
 
-        this.sa = sa;
-        this.sb = sb;
-        this.sc = sc;
+        this.sa = sa || new Vector(0, 0, 0);
+        this.sb = sb || new Vector(0, 0, 0);
+        this.sc = sc || new Vector(0, 0, 0);
     }
 
     intersection = (ray: TRay): number => {
@@ -89,6 +89,6 @@ export class Triangle {
         const b = this.sb.multiply(lengthB)
         const c = this.sc.multiply(lengthC)
 
-        return a.add(b).add(c).normalize();
+        return (a.add(b)).add(c).normalize();
     }
 }
