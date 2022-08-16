@@ -5,8 +5,11 @@ const DEFAULT_MATRIX = [
     [0, 0, 0, 0],
     [0, 0, 0, 0],
     [0, 0, 0, 0],
-    [0, 0, 0, 0]
 ];
+
+const getRotationRad = (angle: number): number => {
+    return angle * (Math.PI / 180);
+};
 
 export type TMatrix = {
     data: number[][];
@@ -62,5 +65,47 @@ export class Matrix implements TMatrix {
         const result = this.multiplyEntity(point);
 
         return new Point(result[0], result[1], result[2]);
+    }
+
+    public rotateX = (angle: number): void => {
+        const rad = getRotationRad(angle);
+
+        this.multiply(
+            new Matrix([
+                [0, 0, 0, 0],
+                [0, Math.cos(rad), -Math.sin(rad), 0],
+                [0, Math.sin(rad), Math.cos(rad), 0],
+            ])
+        );
+    }
+
+    public rotateY = (angle: number): void => {
+        const rad = getRotationRad(angle);
+
+        this.multiply(
+            new Matrix([
+                [Math.cos(rad), 0, Math.sin(rad), 0],
+                [0, 0, 0, 0],
+                [-Math.sin(rad), 0, Math.cos(rad), 0],
+            ])
+        );
+    }
+
+    public rotateZ = (angle: number): void => {
+        const rad = getRotationRad(angle);
+
+        this.multiply(
+            new Matrix([
+                [Math.cos(rad), -Math.sin(rad), 0, 0],
+                [Math.sin(rad), Math.cos(rad), 0, 0],
+                [0, 0, 0, 0],
+            ])
+        );
+    }
+
+    rotate(angleX: number, angleY: number, angleZ: number): void {
+        if (angleX) this.rotateX(angleX);
+        if (angleY) this.rotateY(angleY);
+        if (angleZ) this.rotateZ(angleZ);
     }
 }
