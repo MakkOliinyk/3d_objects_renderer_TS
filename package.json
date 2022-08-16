@@ -8,7 +8,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "lab1": "ts-node ./src/lab_1/index.ts",
+    "lab1": "ts-node src/index.ts",
     "test": "jest"
   },
   "devDependencies": {

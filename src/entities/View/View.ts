@@ -4,7 +4,7 @@ import { Light } from "../Light";
 
 import { TPoint } from "../../geometry/Point";
 import { Ray } from "../../geometry/Ray";
-import { TVector } from "lab_1/geometry/Vector";
+import { TVector } from "geometry/Vector";
 
 export class View {
     camera: Camera;

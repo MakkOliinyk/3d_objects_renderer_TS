@@ -1,7 +1,7 @@
-import { TVector, Vector } from "../src/lab_1/geometry/Vector";
-import { Sphere } from "../src/lab_1/geometry/Sphere";
-import { Point } from "../src/lab_1/geometry/Point";
-import { Ray } from "../src/lab_1/geometry/Ray";
+import { TVector, Vector } from "../src/geometry/Vector";
+import { Sphere } from "../src/geometry/Sphere";
+import { Point } from "../src/geometry/Point";
+import { Ray } from "../src/geometry/Ray";
 
 describe('Figures', () => {
     let normal: TVector = null;

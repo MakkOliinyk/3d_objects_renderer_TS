@@ -1,7 +1,7 @@
-import { Plane } from '../src/lab_1/geometry/Plane';
-import { Vector } from "../src/lab_1/geometry/Vector";
-import { Point } from "../src/lab_1/geometry/Point";
-import { Ray } from "../src/lab_1/geometry/Ray";
+import { Plane } from '../src/geometry/Plane';
+import { Vector } from "../src/geometry/Vector";
+import { Point } from "../src/geometry/Point";
+import { Ray } from "../src/geometry/Ray";
 
 describe('Plane', () => {
     let plane = null;
