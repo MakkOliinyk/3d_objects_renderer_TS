@@ -11,6 +11,8 @@
     "cube": "ts-node src/index.ts --input /files/cube.obj --output /files/cube.ppm",
     "humanoid": "ts-node src/index.ts --input /files/humanoid.obj --output /files/humanoid.ppm",
     "shrek": "ts-node src/index.ts --input /files/shrek.obj --output /files/shrek.ppm",
+    "dod": "ts-node src/index.ts --input /files/dodecahedron.obj --output /files/dodecahedron.ppm",
+    "airboat": "ts-node src/index.ts --input /files/airboat.obj --output /files/airboat.ppm",
     "test": "jest"
   },
   "devDependencies": {
