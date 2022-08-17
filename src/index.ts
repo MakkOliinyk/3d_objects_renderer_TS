@@ -1,23 +1,51 @@
 import { Point } from "./geometry/Point";
 import { Vector } from "./geometry/Vector";
-import { Plane } from "./geometry/Plane";
-import { Sphere } from "./geometry/Sphere";
 import { Triangle } from "./geometry/Triangle";
 
 import { Light } from "./entities/Light";
+import { CameraMatrix } from "./entities/Camera";
 import { View } from "./entities/View";
-import { Camera } from "./entities/Camera";
-import { ViewMatrix } from "./entities/ViewMatrix";
+import { Matrix } from "./entities/Matrix";
 
-import { pathHandler } from "./fileUtils/pathHandler";
+import { commandHandler } from "./fileUtils";
+import { FileReader } from "./fileUtils";
+import { FileWriter } from "./fileUtils";
 
-const camera = new Camera(new Point(0, 0, 50));
+const WIDTH = 680;
+const HEIGHT = 480;
+
+const SCREEN_OFFSET = 1200;
+const CAMERA_POS = WIDTH + SCREEN_OFFSET;
+
+const { input, output } = commandHandler();
+
+const camera = new CameraMatrix(WIDTH, HEIGHT, 500, new Point(0, 0, CAMERA_POS));
 const light = new Light(new Vector(1, 1, 1).normalize());
-const matrix = new ViewMatrix(20, 20, 30);
-const view: View = new View(camera, light, matrix);
+const out = new FileWriter(camera.width, camera.height, output);
 
-const plane = new Plane(new Vector(1, 1, -0.3).normalize(), new Point(0, 0, 0));
-const sphere = new Sphere(new Point(0, 0, 0), 16);
-const triangle = new Triangle(new Point(0, 10, 10), new Point(-10, -5, 10), new Point(20, -5, 10))
+const view = new View(camera, light, out);
 
-pathHandler();
+const fileReader = new FileReader(input);
+const lists = fileReader.read();
+
+const matrix = new Matrix();
+
+// matrix.move(0, -350, 0);
+// matrix.rotate(10, 325, 0);
+// matrix.scale(400);
+
+// humanoid above
+// matrix.move(0, -50, 0);
+// matrix.rotate(0, 350, 0);
+// matrix.scale(30);
+
+// SHREK!
+matrix.move(0, -50, 0);
+matrix.rotate(30, 30, 0);
+matrix.scale(3);
+
+const triangles: Triangle[] = matrix.getTriangles(lists[0], lists[1], lists[2]);
+
+triangles.forEach(triangle => view.inject(triangle));
+
+view.process();
