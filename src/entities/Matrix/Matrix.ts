@@ -136,7 +136,7 @@ export class Matrix implements TMatrix {
         );
     }
 
-    transformObject = (vertexes, vectors, indexes): TTriangle[] => {
+    getTriangles = (vertexes, vectors, indexes): TTriangle[] => {
         const triangles = [];
 
         for (let indexContainer of indexes) {
@@ -144,14 +144,42 @@ export class Matrix implements TMatrix {
             const normals = [];
 
             for (let index of indexContainer) {
-                const vertex = vertexes[index[0] - 1]
-                const vector = vectors[index[1] - 1]
+                const vertex = vertexes[index[0] - 1];
+                const vector = vectors[index[1] - 1];
 
                 points.push(this.multiplyPoint(new Point(vertex[0], vertex[1], vertex[2])));
-                normals.push(this.multiplyVector(new Vector(vector[0], vector[1], vector[2])));
+                if (vector) normals.push(this.multiplyVector(new Vector(vector[0], vector[1], vector[2])).normalize());
             }
 
-            triangles.push(new Triangle(points[0], points[1], points[2], normals[0], normals[1], normals[2]));
+            if (normals.length === 3)
+                triangles.push(
+                    new Triangle(
+                        points[0],
+                        points[1],
+                        points[2],
+                        normals[0],
+                        normals[1],
+                        normals[2]
+                    )
+                );
+            else {
+                const normalsFromPoints = [
+                    points[0].subtract(points[1]).normalize(),
+                    points[1].subtract(points[2]).normalize(),
+                    points[2].subtract(points[0]).normalize(),
+                ]
+
+                triangles.push(
+                    new Triangle(
+                        points[0],
+                        points[1],
+                        points[2],
+                        normalsFromPoints[0],
+                        normalsFromPoints[1],
+                        normalsFromPoints[2]
+                    )
+                );
+            }
         }
 
         return triangles;
