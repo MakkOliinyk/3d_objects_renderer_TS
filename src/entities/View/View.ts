@@ -1,28 +1,23 @@
-import { Camera } from "../Camera";
-import { ViewMatrix } from "../ViewMatrix";
+import { CameraMatrix } from "../../entities/Camera";
+import { TVector } from "../../geometry/Vector";
+import { Ray, TRay } from "../../geometry/Ray";
+
 import { Light } from "../Light";
 
-import { TPoint } from "../../geometry/Point";
-import { Ray } from "../../geometry/Ray";
-import { TVector } from "geometry/Vector";
+import { FileWriter } from "../../fileUtils";
 
 export class View {
-    camera: Camera;
-    matrix: ViewMatrix;
-    light: Light;
+    private camera: CameraMatrix;
+    private light: Light;
+
+    output: FileWriter;
     figures: any[];
-    image: string;
 
-    constructor(camera: Camera, light: Light, matrix: ViewMatrix) {
+    constructor(camera: CameraMatrix, light: Light, output) {
         this.camera = camera;
-        this.matrix = matrix;
         this.light = light;
+        this.output = output;
 
-        this.figures = [];
-        this.image = '';
-    };
-
-    clear() {
         this.figures = [];
     }
 
@@ -30,50 +25,60 @@ export class View {
         this.figures.push(figure);
     }
 
-    getCharacter (normal: TVector) {
-        const dotResult: number = this.light.direction.dot(normal);
+    getLighting(pointNormal: TVector): number {
+        const dotResult = this.light.direction.dot(pointNormal);
 
-        if (dotResult < 0) return ' ';
-        else if (dotResult < 0.2) return '.';
-        else if (dotResult < 0.5) return '*';
-        else if (dotResult < 0.8) return '0';
-        else return '#';
+        if (dotResult < 0) return 0;
+        else return dotResult;
     }
 
-    process() {
-        this.image = '';
-        const origin: TPoint = this.camera.location;
 
-        let resultImage: string = '';
+    isShaded = (item, ray: TRay): Boolean => {
+        for (let i = 0; i < this.figures.length; i++) {
+            if (this.figures[i] !== item) {
+                const t = this.figures[i].intersection(ray);
 
-        for (let y = 0; y < this.matrix.height; y++) {
-            for (let x = 0; x < this.matrix.width; x++) {
-                const direction = this.matrix.getPoint(x, y).subtract(origin);
-                const ray = new Ray(origin, direction);
-
-                let closestFigure: any = null;
-                let closestDistance: number = Infinity;
-
-                for (let figure of this.figures) {
-                    const distance: number = figure.intersection(ray);
-
-                    if (distance !== null && distance < closestDistance) {
-                        closestDistance = distance;
-                        closestFigure = figure;
-                    }
-                }
-
-                if (closestFigure === null) resultImage += '-'
-                else {
-                    const pointNormal = closestFigure.getPointNormal(ray.at(closestDistance));
-                    resultImage += this.getCharacter(pointNormal);
-                }
-
-                resultImage += ' ';
+                if (t > 0) return true;
             }
-            resultImage += '\n';
         }
 
-        this.image = resultImage;
+        return false;
+    }
+
+    process(): void {
+        const rays = this.camera.getRays();
+
+        rays.map((element) => {
+            let figure = null;
+            let t = Infinity;
+
+            for (let i = 0; i < this.figures.length; i++) {
+                const _figure = this.figures[i];
+                const _t = _figure.intersection(element.ray);
+
+                if (_t !== null && _t < t){
+                    t = _t;
+                    figure = _figure;
+                }
+            }
+
+            if (figure === null)
+                this.output.addColor(element.pos.y, element.pos.x, -1);
+            else {
+                const intersectionPoint = element.ray.at(t);
+                const shading = this.isShaded(figure, new Ray(intersectionPoint, this.light.direction));
+
+                if (shading)
+                    this.output.addColor(element.pos.y, element.pos.x, 0);
+                else {
+                    const pointNormal = figure.getPointNormal(intersectionPoint);
+                    const lighting = this.getLighting(pointNormal);
+
+                    this.output.addColor(element.pos.y, element.pos.x, lighting);
+                }
+            }
+        })
+
+        this.output.write();
     }
 }
