@@ -1,6 +1,7 @@
 import { TPoint } from "../Point";
 import { TRay } from "../Ray";
 import { TVector, Vector } from "../Vector";
+import {EPS} from "../constants";
 
 export type TTriangle = {
     a: TPoint;
@@ -34,61 +35,36 @@ export class Triangle {
         this.sc = sc || new Vector(0, 0, 0);
     }
 
-    intersection = (ray: TRay): number => {
-        const { origin, direction } = ray;
+    intersection(ray: TRay): number {
+        const e1 = this.b.subtract(this.a);
+        const e2 = this.c.subtract(this.a);
+        const p = ray.direction.cross(e2);
+        const a = e1.dot(p);
 
-        const edge1 = this.b.subtract(this.a);
-        const edge2 = this.c.subtract(this.a);
+        if (a > -EPS && a < EPS) return null;
 
-        const pvec = direction.cross(edge2);
-        const determinant = edge1.dot(pvec);
+        const f = 1 / a;
+        const s = ray.origin.subtract(this.a);
+        const u = f * s.dot(p);
 
-        if (determinant === 0)
-            return null;
+        if (u < 0 || u > 1) return null;
 
-        const inverted_determinant = 1 / determinant;
+        const q = s.cross(e1);
+        const v = f * ray.direction.dot(q);
 
-        const tvec = origin.subtract(this.a);
-        const u = tvec.dot(pvec) * inverted_determinant;
+        if (v < 0 || u + v > 1) return null;
 
-        if (u < 0 || u > 1)
-            return null;
+        const t = f * e2.dot(q);
 
-        const qvec = tvec.cross(edge1);
-        const v = direction.dot(qvec) * inverted_determinant;
+        if (t > EPS) return t;
 
-        if (v < 0 || u + v > 1)
-            return null;
-
-        const t = edge2.dot(qvec) * inverted_determinant;
-
-        return t >= 0
-            ? t
-            : null;
+        return null;
     }
 
-    getPointNormal(point: TPoint): TVector {
-        if (!this.sa.length && !this.sb.length && !this.sc.length) {
-            const edge1 = this.b.subtract(point);
-            const edge2 = this.c.subtract(point);
+    getPointNormal(_point: TPoint): TPoint {
+        const e1 = this.b.subtract(this.a);
+        const e2 = this.c.subtract(this.a);
 
-            return edge1.cross(edge2).normalize();
-        }
-
-        let lengthA: number = this.a.subtract(point).length;
-        let lengthB: number = this.b.subtract(point).length;
-        let lengthC: number = this.c.subtract(point).length;
-
-        const lengths_sum: number = lengthA + lengthB + lengthC;
-
-        lengthA = lengthA / lengths_sum;
-        lengthB = lengthB / lengths_sum;
-        lengthC = lengthC / lengths_sum;
-
-        const a = this.sa.multiply(lengthA)
-        const b = this.sb.multiply(lengthB)
-        const c = this.sc.multiply(lengthC)
-
-        return (a.add(b)).add(c).normalize();
+        return e1.cross(e2).normalize();
     }
 }
