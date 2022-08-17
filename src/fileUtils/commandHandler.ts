@@ -7,7 +7,7 @@ export const argsHandler = () => {
     return yargs(hideBin(process.argv)).argv;
 };
 
-export const pathHandler = () => {
+export const commandHandler = () => {
     const { input, output } = argsHandler();
 
     return { input: `${DEFAULT_PATH}${input}`, output: `${DEFAULT_PATH}${output}` };
