@@ -3,8 +3,12 @@ const { hideBin } = require('yargs/helpers')
 
 const DEFAULT_PATH = 'C:\\Users\\Mark\\Desktop\\Uni\\kpi-cg-labs';
 
+export const argsHandler = () => {
+    return yargs(hideBin(process.argv)).argv;
+};
+
 export const pathHandler = () => {
-    const { input, output } = yargs(hideBin(process.argv)).argv
+    const { input, output } = argsHandler();
 
     return { input: `${DEFAULT_PATH}${input}`, output: `${DEFAULT_PATH}${output}` };
 };
